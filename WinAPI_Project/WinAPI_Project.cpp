@@ -95,7 +95,11 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 //
 BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
+   // hInst : 내 프로그램의 제어권한 이자 표식
+
    hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
+
+   // HWND hWnd 윈도우를 제어할 수 있는 제어권한 이자 표식
 
    HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
       CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
@@ -105,7 +109,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
       return FALSE;
    }
 
-   ShowWindow(hWnd, nCmdShow);
+   ShowWindow(hWnd, nCmdShow);   
    UpdateWindow(hWnd);
 
    return TRUE;
@@ -146,6 +150,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         {
             PAINTSTRUCT ps;
             HDC hdc = BeginPaint(hWnd, &ps);
+
             // TODO: 여기에 hdc를 사용하는 그리기 코드를 추가합니다...
             EndPaint(hWnd, &ps);
         }
