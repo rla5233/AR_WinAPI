@@ -44,6 +44,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     MSG msg;
 
     // 기본 메시지 루프입니다:
+    // GetMessage 함수 : 윈도우에서 사용자가 어떠한 변화를 주면 뭔가를 한다.
+    // 그러나 일반적인 게임은 윈도우에 변화가 있건 없건 계속 작동한다.
     while (GetMessage(&msg, nullptr, 0, 0))
     {
         if (!TranslateAccelerator(msg.hwnd, 0/*hAccelTable*/, &msg))
@@ -52,6 +54,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             DispatchMessage(&msg);
         }
     }
+
+    // 콜백 방식
+    // 윈도우를 만든 사람은 사용자가 윈도우 창을 어떻게 사용할지 알지 못한다.
+    // 따라서 사용자는 윈도우에게 무엇을 할지 알려줘야 한다.
+    // 이때 함수 포인터를 사용할 수 있다.
+    // 함수포인터를 넣어주면 윈도우에 무슨일이 생겼을때 그걸 실행하게 할 수 있다.
 
     return (int) msg.wParam;
 }
@@ -70,7 +78,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     wcex.cbSize = sizeof(WNDCLASSEX);
 
     wcex.style          = CS_HREDRAW | CS_VREDRAW;
-    wcex.lpfnWndProc    = WndProc;
+    wcex.lpfnWndProc    = WndProc; // <- 
     wcex.cbClsExtra     = 0;
     wcex.cbWndExtra     = 0;
     wcex.hInstance      = hInstance;
