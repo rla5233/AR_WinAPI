@@ -108,7 +108,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
    hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
 
-   // HWND hWnd 윈도우를 제어할 수 있는 제어권한 이자 표식
+   //HWND hWnd; // 윈도우를 제어할 수 있는 제어권한 이자 표식
 
    HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
       CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
