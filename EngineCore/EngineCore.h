@@ -45,4 +45,4 @@ _In_ int       nCmdShow) \
 	Ptr->CoreInit(hInstance); \
 	Ptr->EngineStart(); \
 	EngineWindow::WindowMessageLoop(); \
-} \
+}

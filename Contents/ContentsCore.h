@@ -1,7 +1,8 @@
 #pragma once
+#include <EngineCore/EngineCore.h>
 
 // Ό³Έν :
-class ContentsCore
+class ContentsCore : public EngineCore
 {
 public:
 	// constructor destructor
@@ -15,6 +16,9 @@ public:
 	ContentsCore& operator=(ContentsCore&& _Other) noexcept = delete;
 
 protected:
+	void EngineStart() override;
+	void EngineUpdate() override;
+	void EngineEnd() override;
 
 private:
 
