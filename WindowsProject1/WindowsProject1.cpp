@@ -1,8 +1,8 @@
-﻿// WinAPI_Project.cpp : 애플리케이션에 대한 진입점을 정의합니다.
+﻿// WindowsProject1.cpp : 애플리케이션에 대한 진입점을 정의합니다.
 //
 
 #include "framework.h"
-#include "WinAPI_Project.h"
+#include "WindowsProject1.h"
 
 #define MAX_LOADSTRING 100
 
@@ -10,6 +10,7 @@
 HINSTANCE hInst;                                // 현재 인스턴스입니다.
 WCHAR szTitle[MAX_LOADSTRING];                  // 제목 표시줄 텍스트입니다.
 WCHAR szWindowClass[MAX_LOADSTRING];            // 기본 창 클래스 이름입니다.
+bool Live = true;
 
 // 이 코드 모듈에 포함된 함수의 선언을 전달합니다:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -29,37 +30,26 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     // 전역 문자열을 초기화합니다.
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
-    LoadStringW(hInstance, IDC_WINAPIPROJECT, szWindowClass, MAX_LOADSTRING);
+    LoadStringW(hInstance, IDC_WINDOWSPROJECT1, szWindowClass, MAX_LOADSTRING);
     MyRegisterClass(hInstance);
 
     // 애플리케이션 초기화를 수행합니다:
-    if (!InitInstance (hInstance, nCmdShow))
+    if (!InitInstance(hInstance, nCmdShow))
     {
         return FALSE;
     }
 
-    // 단축키 설정 로드 (무시해도 된다. 0으로 사용해도 됨)
-    //HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_WINAPIPROJECT));
-
     MSG msg;
 
     // 기본 메시지 루프입니다:
-    // GetMessage 함수 : 윈도우에서 사용자가 어떠한 변화를 주면 뭔가를 한다.
-    // 그러나 일반적인 게임은 윈도우에 변화가 있건 없건 계속 작동한다.
-    while (GetMessage(&msg, nullptr, 0, 0))
+    while (Live)
     {
-        if (!TranslateAccelerator(msg.hwnd, 0/*hAccelTable*/, &msg))
+        if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
         {
             TranslateMessage(&msg);
-            DispatchMessage(&msg);
+            DispatchMessage(&msg);   
         }
     }
-
-    // 콜백 방식
-    // 윈도우를 만든 사람은 사용자가 윈도우 창을 어떻게 사용할지 알지 못한다.
-    // 따라서 사용자는 윈도우에게 무엇을 할지 알려줘야 한다.
-    // 이때 함수 포인터를 사용할 수 있다.
-    // 함수포인터를 넣어주면 윈도우에 무슨일이 생겼을때 그걸 실행하게 할 수 있다.
 
     return (int) msg.wParam;
 }
@@ -78,14 +68,14 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     wcex.cbSize = sizeof(WNDCLASSEX);
 
     wcex.style          = CS_HREDRAW | CS_VREDRAW;
-    wcex.lpfnWndProc    = WndProc; // <- 
+    wcex.lpfnWndProc    = WndProc;
     wcex.cbClsExtra     = 0;
     wcex.cbWndExtra     = 0;
     wcex.hInstance      = hInstance;
-    wcex.hIcon          = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_WINAPIPROJECT));
+    wcex.hIcon          = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_WINDOWSPROJECT1));
     wcex.hCursor        = LoadCursor(nullptr, IDC_ARROW);
     wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
-    wcex.lpszMenuName   = MAKEINTRESOURCEW(IDC_WINAPIPROJECT); // 메뉴창
+    wcex.lpszMenuName   = MAKEINTRESOURCEW(IDC_WINDOWSPROJECT1); // 메뉴창
     wcex.lpszClassName  = szWindowClass;
     wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
@@ -104,12 +94,11 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 //
 BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
-   // hInst : 내 프로그램의 제어권한 이자 표식
-
+   
+   // hInst : 내 프로그램의 제어권한이자 표식
    hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
 
-   //HWND hWnd; // 윈도우를 제어할 수 있는 제어권한 이자 표식
-
+   //HWND hWnd; // 윈도우를 제어할 수 있는 제어권한이자 표식
    HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
       CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
 
@@ -118,7 +107,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
       return FALSE;
    }
 
-   ShowWindow(hWnd, nCmdShow);   
+   ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
 
    return TRUE;
@@ -136,36 +125,26 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+    // hWnd 일이 발생한 윈도우의 핸들
+    // message 윈도우의 발생한 일의 종류 
+    // 부가 스테이터스 wParam 마우스 포지션
+    // lParam 하나도 안쓴다
+
     switch (message)
     {
-    case WM_COMMAND:
-        {
-            int wmId = LOWORD(wParam);
-            // 메뉴 선택을 구문 분석합니다:
-            switch (wmId)
-            {
-            case IDM_ABOUT:
-                DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
-                break;
-            case IDM_EXIT:
-                DestroyWindow(hWnd);
-                break;
-            default:
-                return DefWindowProc(hWnd, message, wParam, lParam);
-            }
-        }
-        break;
     case WM_PAINT:
         {
             PAINTSTRUCT ps;
             HDC hdc = BeginPaint(hWnd, &ps);
-
             // TODO: 여기에 hdc를 사용하는 그리기 코드를 추가합니다...
+
+            Rectangle(hdc, 100, 100, 200, 200);
+            
             EndPaint(hWnd, &ps);
         }
         break;
     case WM_DESTROY:
-        PostQuitMessage(0);
+        Live = false;
         break;
     default:
         return DefWindowProc(hWnd, message, wParam, lParam);
