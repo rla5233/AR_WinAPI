@@ -54,11 +54,11 @@ void EngineWindow::Init(HINSTANCE _hInst)
     hInstance = _hInst;
 }
 
-unsigned __int64 EngineWindow::WindowMessageLoop()
+unsigned __int64 EngineWindow::WindowMessageLoop(void(*_Update)(), void(*_End)())
 {
     MSG msg = {};
 
-    // 기본 메시지 루프입니다:
+    // 기본 메시지 루프
     while (WindowLive)
     {
         if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
@@ -66,6 +66,16 @@ unsigned __int64 EngineWindow::WindowMessageLoop()
             TranslateMessage(&msg);
             DispatchMessage(&msg);
         }
+
+        if (nullptr != _Update)
+        {
+            _Update();
+        }
+    }
+
+    if (nullptr != _End)
+    {
+        _End();
     }
 
     return msg.wParam;

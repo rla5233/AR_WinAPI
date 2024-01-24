@@ -21,7 +21,9 @@ public:
 
 	// 윈도우창 초기화
 	static void Init(HINSTANCE _hInst);
-	static unsigned __int64 WindowMessageLoop();
+
+	// 업데이트와 종료시 할일을 함수포인터로 받아서 실행해준다.
+	static unsigned __int64 WindowMessageLoop(void(*_Update)(), void(*_End)());
 
 protected:
 

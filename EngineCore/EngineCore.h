@@ -1,12 +1,14 @@
 #pragma once
 #include <EnginePlatform/EngineWindow.h>
+#include <map>
+
+class ULevel;
 
 // 설명 :
 class EngineCore
 {
 public:
-	// constructor destructor
-	EngineCore();
+	// destructor
 	~EngineCore();
 
 	// delete Function
@@ -27,10 +29,15 @@ public:
 	EngineWindow MainWindow;
 
 protected:
+	// 엔진 코어는 프로그램에 1개 있다.
+	// 따라서 아무나 또 생성하지 못하도록 막음
+	EngineCore();
 
 private:
 	// 엔진 초기화 됬는지 확인
 	bool EngineInit = false;
+
+	std::map<std::string, ULevel*> AllLevel;
 };
 
 // 메인함수를 숨기기 위하 define 이용 -> 옛날 방식
