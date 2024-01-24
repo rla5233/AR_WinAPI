@@ -1,6 +1,7 @@
 #include "ContentsCore.h"
 
 ContentsCore::ContentsCore()
+	: EngineCore()
 {
 }
 
