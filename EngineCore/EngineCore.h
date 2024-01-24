@@ -1,6 +1,7 @@
 #pragma once
 #include <EngineBase/EngineDebug.h>
 #include <EnginePlatform/EngineWindow.h>
+#include <EngineBase/EngineString.h>
 #include <map>
 
 class ULevel;
@@ -23,8 +24,8 @@ public:
 
 	static void EngineStart(HINSTANCE _hInstance, EngineCore* _UserCore);
 
-	virtual void Start();
-	virtual void Update();
+	virtual void BeginPlay();
+	virtual void Tick(float _DeltaTime);
 	virtual void End();
 
 	// 스테이지 생성 함수
@@ -39,6 +40,8 @@ public:
 		LevelType* NewLevel = new LevelType();
 		AllLevel.insert(std::pair<std::string, ULevel*>(_Name, NewLevel));
 	}
+
+	void ChangeLevel(std::string_view _Name);
 
 protected:
 	// 엔진 코어는 프로그램에 1개 있다.
@@ -55,8 +58,11 @@ private:
 
 	// Level(스테이지)는 map으로 관리할 수 있다.
 	std::map<std::string, ULevel*> AllLevel;
+	ULevel* CurLevel = nullptr;
 
-	static void EngineUpdate();
+	void LevelInit(ULevel* _Level);
+
+	static void EngineTick();
 	static void EngineEnd();
 };
 

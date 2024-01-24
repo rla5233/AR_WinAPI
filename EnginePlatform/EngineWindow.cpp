@@ -43,7 +43,7 @@ void EngineWindow::Open(std::string_view _Title)
         return;
     }
 
-    hDc = GetDC(hWnd);
+    hDC = GetDC(hWnd);
 
     ShowWindow(hWnd, SW_SHOW);
     UpdateWindow(hWnd);

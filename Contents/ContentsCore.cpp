@@ -10,17 +10,17 @@ ContentsCore::~ContentsCore()
 }
 
 // 게임 시작
-void ContentsCore::EngineStart()
+void ContentsCore::BeginPlay()
 {
-	int a = 0;
+	
 }
 
-void ContentsCore::EngineUpdate()
+void ContentsCore::Tick(float _DeltaTime)
 {
 
 }
 
-void ContentsCore::EngineEnd()
+void ContentsCore::End()
 {
 
 }

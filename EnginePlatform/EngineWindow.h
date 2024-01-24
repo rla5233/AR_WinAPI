@@ -25,6 +25,12 @@ public:
 	// 업데이트와 종료시 할일을 함수포인터로 받아서 실행해준다.
 	static unsigned __int64 WindowMessageLoop(void(*_Update)(), void(*_End)());
 
+	// 윈도우에 그릴 수 있는 권한 
+	HDC GetWindowDC()
+	{
+		return hDC;
+	}
+
 protected:
 
 private:
@@ -34,5 +40,5 @@ private:
 	static LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
 	HWND hWnd = nullptr;
-	HDC hDc = nullptr;
+	HDC hDC = nullptr;
 };

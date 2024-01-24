@@ -21,6 +21,12 @@
     <ClInclude Include="Level.h">
       <Filter>Object</Filter>
     </ClInclude>
+    <ClInclude Include="NameObject.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="TickObject.h">
+      <Filter>Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineCore.cpp">
@@ -30,6 +36,12 @@
       <Filter>Object\Actor</Filter>
     </ClCompile>
     <ClCompile Include="Level.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="NameObject.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="TickObject.cpp">
       <Filter>Object</Filter>
     </ClCompile>
   </ItemGroup>
