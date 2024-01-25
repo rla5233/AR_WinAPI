@@ -1,8 +1,13 @@
 #pragma once
-#include <EngineBase/EngineDebug.h>
-#include <EnginePlatform/EngineWindow.h>
-#include <EngineBase/EngineString.h>
+
 #include <map>
+
+#include <EngineBase/EngineDebug.h>
+#include <EngineBase/EngineString.h>
+#include <EngineBase/EngineTime.h>
+
+#include <EnginePlatform/EngineInput.h>
+#include <EnginePlatform/EngineWindow.h>
 
 class ULevel;
 
@@ -50,7 +55,8 @@ protected:
 
 public:
 	// 윈도우창 1개는 무조건 만들어질것임
-	EngineWindow MainWindow;
+	EngineWindow	MainWindow;
+	EngineTime		MainTimer;
 
 private:
 	// 엔진 초기화 됬는지 확인

@@ -1,3 +1,4 @@
+#include "EnginePlatform/EngineInput.h"
 #include "EngineCore.h"
 #include "Level.h"
 
@@ -14,14 +15,16 @@ EngineCore::~EngineCore()
 
 void EngineCore::EngineTick()
 {
+	float DeltaTime = GEngine->MainTimer.TimeCheck();
+	EngineInput::KeyCheckTick(DeltaTime);
 	if (nullptr == GEngine->CurLevel)
 	{
 		MsgBoxAssert("CurLevel is Nullptr");
 	}
 
 	// 레벨이 먼저 틱을 돌린다.
-	GEngine->CurLevel->Tick(0.0f);
-	GEngine->CurLevel->ActorTick(0.0f);
+	GEngine->CurLevel->Tick(DeltaTime);
+	GEngine->CurLevel->ActorTick(DeltaTime);
 }
 
 void EngineCore::EngineEnd()
@@ -42,9 +45,9 @@ void EngineCore::EngineEnd()
 
 void EngineCore::EngineStart(HINSTANCE _hInstance, EngineCore* _UserCore)
 {
-	// 엔진이 시작될 때 해야할일
 	EngineCore* Ptr = _UserCore;
 	GEngine = Ptr;
+	Ptr->MainTimer.TimeCheckStart();
 	Ptr->CoreInit(_hInstance);
 	Ptr->BeginPlay();
 	EngineWindow::WindowMessageLoop(EngineTick, EngineEnd);
@@ -82,7 +85,7 @@ void EngineCore::ChangeLevel(std::string_view _Name)
 		MsgBoxAssert(std::string(_Name) + " Is Not Found");
 	}
 
-	// 눈에 보여야할 레벨
+	// 현재 레벨
 	CurLevel = AllLevel[UpperName];
 }
 
