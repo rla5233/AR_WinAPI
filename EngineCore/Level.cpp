@@ -45,8 +45,10 @@ void ULevel::LevelRender(float _DeltaTime)
 		std::list<UImageRenderer*>& RendererList = OrderListPair.second;
 		for (UImageRenderer* Renderer : RendererList)
 		{
-			Renderer->
-			
+			if (Renderer->IsActive())
+			{
+				Renderer->Render(_DeltaTime);
+			}			
 		}
 	}
 }

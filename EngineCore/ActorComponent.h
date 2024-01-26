@@ -29,4 +29,8 @@ protected:
 private:
 	AActor* Owner = nullptr;
 
+	void SetOwner(AActor* _Owner)
+	{
+		Owner = _Owner;
+	}
 };

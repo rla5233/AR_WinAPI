@@ -2,8 +2,12 @@
 #include <EngineBase/Transform.h>
 #include "TickObject.h"
 #include "NameObject.h"
+#include "ImageRenderer.h"
+#include "Level.h"
 
 class ULevel;
+class UActorComponent;
+class UImageRenderer;
 
 	// 설명 : 언리얼에서 A가 붙은 오브젝트는 화면에 위치가 존재한다.
 class AActor : public UNameObject, public UTickObject
@@ -45,14 +49,16 @@ public:
 		return World;
 	}
 
+	UImageRenderer* CreateImageRenderer(int Order = 0);
+
 protected:
 
 private:
-	// 객체가 속한 level
+	std::list<UImageRenderer*> Renderers;
+	
 	ULevel* World = nullptr;
 	FTransform Transform;
 
-	// 외부에 공개하지 않을것이다.
 	void SetWorld(ULevel* _Value)
 	{
 		World = _Value;
