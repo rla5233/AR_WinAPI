@@ -1,5 +1,5 @@
 #pragma once
-#include <EngineBase/FTransform.h>
+#include <EngineBase/Transform.h>
 #include "TickObject.h"
 #include "NameObject.h"
 
@@ -49,7 +49,7 @@ protected:
 
 private:
 	// 객체가 속한 level
-	ULevel* World;
+	ULevel* World = nullptr;
 	FTransform Transform;
 
 	// 외부에 공개하지 않을것이다.

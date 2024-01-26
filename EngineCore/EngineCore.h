@@ -24,7 +24,6 @@ public:
 	EngineCore& operator=(const EngineCore& _Other) = delete;
 	EngineCore& operator=(EngineCore&& _Other) noexcept = delete;
 
-	// 코어 초기화
 	void CoreInit(HINSTANCE _HINSTANCE);
 
 	static void EngineStart(HINSTANCE _hInstance, EngineCore* _UserCore);
@@ -48,25 +47,31 @@ public:
 
 	void ChangeLevel(std::string_view _Name);
 
+	void SetFrame(int _Frame)
+	{
+		
+	}
+
 protected:
 	// 엔진 코어는 프로그램에 1개 있다.
 	// 따라서 아무나 또 생성하지 못하도록 막음
 	EngineCore();
 
 public:
-	// 윈도우창 1개는 무조건 만들어질것임
 	EngineWindow	MainWindow;
 	EngineTime		MainTimer;
 
 private:
-	// 엔진 초기화 됬는지 확인
-	bool EngineInit = false;
+	int Frame = -1;
+	float FrameTime = 0.0f;
+	float CurFrameTime = 0.0f;
 
-	// Level(스테이지)는 map으로 관리할 수 있다.
+	bool EngineInit = false;
 	std::map<std::string, ULevel*> AllLevel;
 	ULevel* CurLevel = nullptr;
 
 	void LevelInit(ULevel* _Level);
+	void CoreTick();
 
 	static void EngineTick();
 	static void EngineEnd();

@@ -1,4 +1,5 @@
 #pragma once
+#include <EngineBase/EngineDebug.h>
 
 // Ό³Έν :
 class UTickObject
@@ -14,29 +15,44 @@ public:
 	UTickObject& operator=(const UTickObject& _Other) = delete;
 	UTickObject& operator=(UTickObject&& _Other) noexcept = delete;
 
-	void On()
+	void ActiveOn()
 	{
-		IsUpdateValue = true;
+		IsActiveValue = true;
 	}
 
-	void Off()
+	void ActiveOff()
 	{
-		IsUpdateValue = false;
+		IsActiveValue = false;
 	}
 
-	bool IsOn()
+	void SetActive(bool _Active)
 	{
-		return IsUpdateValue && IsDeathValue == false;
+		IsActiveValue = _Active;
 	}
 
-	void Death()
+	bool IsActive()
 	{
-		IsDeathValue = true;
+		return IsActiveValue && IsDestroyValue == false;
 	}
 
-	bool IsDeath()
+	void Destroy()
 	{
-		return IsDeathValue;
+		IsDestroyValue = true;
+	}
+
+	bool IsDestroy()
+	{
+		return IsDestroyValue;
+	}
+
+	int GetOrder()
+	{
+		return Order;
+	}
+
+	virtual void SetOrder(int _Order)
+	{
+		Order = _Order;
 	}
 
 	virtual void BeginPlay();
@@ -45,7 +61,8 @@ public:
 protected:
 
 private:
-	bool IsUpdateValue = true;
-	bool IsDeathValue = false;
+	int Order = 0;
+	bool IsActiveValue = true;
+	bool IsDestroyValue = false;
 	
 };

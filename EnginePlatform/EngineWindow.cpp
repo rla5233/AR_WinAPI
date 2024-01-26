@@ -12,6 +12,33 @@ EngineWindow::~EngineWindow()
 {
 }
 
+LRESULT CALLBACK EngineWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+    switch (message)
+    {
+        break;
+    case WM_PAINT:
+    {
+        PAINTSTRUCT ps;
+        HDC hdc = BeginPaint(hWnd, &ps);
+        EndPaint(hWnd, &ps);
+    }
+    break;
+    case WM_DESTROY:
+        // 윈도우 종료시
+        WindowLive = false;
+        break;
+    default:
+        return DefWindowProc(hWnd, message, wParam, lParam);
+    }
+    return 0;
+}
+
+void EngineWindow::Init(HINSTANCE _hInst)
+{
+    hInstance = _hInst;
+}
+
 void EngineWindow::Open(std::string_view _Title)
 {
     // 윈도우 설정 초기화
@@ -49,11 +76,6 @@ void EngineWindow::Open(std::string_view _Title)
     UpdateWindow(hWnd);
 }
 
-void EngineWindow::Init(HINSTANCE _hInst)
-{
-    hInstance = _hInst;
-}
-
 unsigned __int64 EngineWindow::WindowMessageLoop(void(*_Update)(), void(*_End)())
 {
     MSG msg = {};
@@ -79,26 +101,4 @@ unsigned __int64 EngineWindow::WindowMessageLoop(void(*_Update)(), void(*_End)()
     }
 
     return msg.wParam;
-}
-
-LRESULT CALLBACK EngineWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
-{
-    switch (message)
-    {   
-    break;
-    case WM_PAINT:
-    {
-        PAINTSTRUCT ps;
-        HDC hdc = BeginPaint(hWnd, &ps);
-        EndPaint(hWnd, &ps);
-    }
-    break;
-    case WM_DESTROY:
-        // 윈도우 종료시
-        WindowLive = false;
-        break;
-    default:
-        return DefWindowProc(hWnd, message, wParam, lParam);
-    }
-    return 0;
 }

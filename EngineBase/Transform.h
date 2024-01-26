@@ -14,8 +14,7 @@ public:
 	//FTransform(FTransform&& _Other) noexcept = delete;
 	//FTransform& operator=(const FTransform& _Other) = delete;
 	//FTransform& operator=(FTransform&& _Other) noexcept = delete;
-
-public:
+	/////////////////////////////////////////////////////////////
 	void SetScale(FVector _Value)
 	{
 		Scale = _Value;
@@ -29,6 +28,11 @@ public:
 	void SetPosition(FVector _Value)
 	{
 		Position = _Value;
+	}
+
+	void AddPosition(FVector _Value)
+	{
+		Position += _Value;
 	}
 
 	FVector GetPosition()
@@ -76,10 +80,10 @@ public:
 		return static_cast<int>(Bottom());
 	}
 
+
 protected:
 
 private:
-	FVector Scale;	
-	FVector Position;
-
+	FVector Scale		= FVector::Zero;
+	FVector Position	= FVector::Zero;
 };

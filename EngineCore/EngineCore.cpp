@@ -15,22 +15,46 @@ EngineCore::~EngineCore()
 
 void EngineCore::EngineTick()
 {
-	float DeltaTime = GEngine->MainTimer.TimeCheck();
+	GEngine->CoreTick();
+}
+
+void EngineCore::CoreTick()
+{
+	float DeltaTime = MainTimer.TimeCheck();
+	double dDeltaTime = MainTimer.GetDeltaTime();
+
+	if (1 <= Frame)
+	{
+		CurFrameTime += DeltaTime;
+		if (CurFrameTime <= FrameTime)
+		{
+			return;
+		}
+
+		CurFrameTime -= FrameTime;
+		DeltaTime = FrameTime;
+	}
+
 	EngineInput::KeyCheckTick(DeltaTime);
+
 	if (nullptr == GEngine->CurLevel)
 	{
 		MsgBoxAssert("CurLevel is Nullptr");
 	}
 
 	// 레벨이 먼저 틱을 돌린다.
-	GEngine->CurLevel->Tick(DeltaTime);
-	GEngine->CurLevel->ActorTick(DeltaTime);
+	CurLevel->Tick(DeltaTime);
+	// 레벨안의 엑터와 오브젝트들의 틱을 돌린다 -> 행동한다.
+	CurLevel->LevelTick(DeltaTime);
+	// 렌더러들의 렌더를 통해 화면에 그림을 그린다.
+	CurLevel->LevelRender(DeltaTime);
+	// 정리한다. (죽은 오브젝트들을 파괴한다.)
+	CurLevel->LevelRelease(DeltaTime);
 }
 
 void EngineCore::EngineEnd()
 {
 	// 엔진이 종료될 때 해야할일
-
 	for (std::pair<const std::string, ULevel*>& _Pair: GEngine->AllLevel)
 	{
 		if (nullptr != _Pair.second)
@@ -55,7 +79,6 @@ void EngineCore::EngineStart(HINSTANCE _hInstance, EngineCore* _UserCore)
 
 void EngineCore::CoreInit(HINSTANCE _HINSTANCE)
 {
-	// 방어코드 (중복 초기화 방지)
 	if (true == EngineInit)
 	{
 		return;
@@ -85,7 +108,6 @@ void EngineCore::ChangeLevel(std::string_view _Name)
 		MsgBoxAssert(std::string(_Name) + " Is Not Found");
 	}
 
-	// 현재 레벨
 	CurLevel = AllLevel[UpperName];
 }
 

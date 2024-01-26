@@ -4,10 +4,14 @@
 #include <list>
 
 class AActor;
+class EngineCore;
+class UImageRenderer;
 
 // 설명 : 언리얼에서 U는 그냥 엔진에 속해있다는 것을 의미
 class ULevel : public UNameObject
 {
+	friend EngineCore;
+	friend UImageRenderer;
 public:
 	// constructor destructor
 	ULevel();
@@ -31,13 +35,15 @@ public:
 		AllActor[_Order].push_back(NewActor);
 		return NewActor;
 	}
-
-	void ActorTick(float _DeltaTime);
 	
 protected:
 
 private:
 	std::map<int, std::list<AActor*>> AllActor;
+	std::map<int, std::list<UImageRenderer*>> Renderers;
 
 	void ActorInit(AActor* _NewActor);
+	void LevelTick(float _DeltaTime);
+	void LevelRender(float _DeltaTime);
+	void LevelRelease(float _DeltaTime);
 };
